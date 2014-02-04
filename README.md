@@ -1,1 +1,1 @@
-Example of Spring Data JPA application (Hibernate used as implementation of JPA).
+# Spring MVC Mongo DB Sample Application
