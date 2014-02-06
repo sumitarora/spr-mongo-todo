@@ -18,13 +18,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sumit.exception.ShopNotFound;
 import com.sumit.model.Shop;
-import com.sumit.mongorepository.UserRepository;
 import com.sumit.service.ShopService;
 import com.sumit.validation.ShopValidator;
 
 @Controller
 @RequestMapping(value="/shop")
-public class ShopController {
+public class UserController {
 	
 	@Autowired
 	private ShopService shopService;
