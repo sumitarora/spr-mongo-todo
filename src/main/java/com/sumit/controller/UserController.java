@@ -1,7 +1,5 @@
 package com.sumit.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +16,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sumit.exception.ShopNotFound;
 import com.sumit.model.Shop;
-import com.sumit.service.ShopService;
 import com.sumit.validation.ShopValidator;
 
 @Controller
 @RequestMapping(value="/shop")
 public class UserController {
 	
-	@Autowired
-	private ShopService shopService;
+	//@Autowired
+	//private ShopService shopService;
 	
 	@Autowired
 	private ShopValidator shopValidator;
@@ -53,7 +50,7 @@ public class UserController {
 		ModelAndView mav = new ModelAndView();
 		String message = "New shop "+shop.getName()+" was successfully created.";
 		
-		shopService.create(shop);
+		//shopService.create(shop);
 		mav.setViewName("redirect:/index.html");
 				
 		redirectAttributes.addFlashAttribute("message", message);	
@@ -63,16 +60,16 @@ public class UserController {
 	@RequestMapping(value="/list", method=RequestMethod.GET)
 	public ModelAndView shopListPage() {
 		ModelAndView mav = new ModelAndView("shop-list");
-		List<Shop> shopList = shopService.findAll();
-		mav.addObject("shopList", shopList);
+		//List<Shop> shopList = shopService.findAll();
+		//mav.addObject("shopList", shopList);
 		return mav;
 	}
 	
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.GET)
 	public ModelAndView editShopPage(@PathVariable Integer id) {
 		ModelAndView mav = new ModelAndView("shop-edit");
-		Shop shop = shopService.findById(id);
-		mav.addObject("shop", shop);
+		//Shop shop = shopService.findById(id);
+		//mav.addObject("shop", shop);
 		return mav;
 	}
 	
@@ -88,7 +85,7 @@ public class UserController {
 		ModelAndView mav = new ModelAndView("redirect:/index.html");
 		String message = "Shop was successfully updated.";
 
-		shopService.update(shop);
+		//shopService.update(shop);
 		
 		redirectAttributes.addFlashAttribute("message", message);	
 		return mav;
@@ -100,10 +97,10 @@ public class UserController {
 		
 		ModelAndView mav = new ModelAndView("redirect:/index.html");		
 		
-		Shop shop = shopService.delete(id);
-		String message = "The shop "+shop.getName()+" was successfully deleted.";
+		//Shop shop = shopService.delete(id);
+		//String message = "The shop "+shop.getName()+" was successfully deleted.";
 		
-		redirectAttributes.addFlashAttribute("message", message);
+		//redirectAttributes.addFlashAttribute("message", message);
 		return mav;
 	}
 	
