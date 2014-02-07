@@ -24,7 +24,7 @@ public class TaskController {
 		final List<Task> tasks = taskRepository.findAll();
 		System.out.println(tasks.size());
 		
-		ModelAndView mav = new ModelAndView("shop-new", "shop", new Shop());
+		ModelAndView mav = new ModelAndView("task/list", "allTasks", tasks);
 		return mav;
 	}
 	
