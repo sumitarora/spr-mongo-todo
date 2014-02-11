@@ -7,10 +7,11 @@
         Total Tasks: <strong>${requestScope.totalTasksCount} tasks</strong>,
         Finished: <strong>${requestScope.finishedTasksCount} tasks</strong>,
         Pending: <strong>${requestScope.pendingTasksCount} tasks</strong>
-
     </p>
-    
-<h3>Pending Tasks</h3>
+    <a type="button" class="btn btn-success btn-sm" href="${pageContext.request.contextPath}/task/create">
+        Add Task
+    </a>
+    <br/><br/>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -29,9 +30,7 @@
                         <td>${task.description}</td>
                         <td>${task.dueDate}</td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm">
-                                <span class="glyphicon glyphicon-star"></span> Star
-                            </button> 
+                            <button type="button" class="btn btn-primary btn-sm">Edit</button> 
                             <%-- <a href="${pageContext.request.contextPath}/tasks?id=${task.id}">Edit</a> --%>
                             <button type="button" class="btn btn-danger btn-sm">Delete</button>
                             <%-- <a href="${pageContext.request.contextPath}/tasks?id=${task.id}&status=d">Delete</a> --%>
@@ -44,4 +43,4 @@
         <br />
     <h3>Pending Tasks</h3>
 
-<%@ include file="../common/header.jsp"%>
+<%@ include file="../common/footer.jsp"%>

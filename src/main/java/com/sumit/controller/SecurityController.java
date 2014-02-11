@@ -46,29 +46,8 @@ public class SecurityController {
     }
    
 	@RequestMapping(value={"/", "index"}, method=RequestMethod.GET)
-	public ModelAndView index() {
-		
-//		final Task task = new Task();
-//		task.setName("task");
-//		task.setPriority(Priority.HIGH);
-//		task.setStatus(Status.PENDING);
-//		task.setCreated(new Date());
-//		task.setDescription("description");
-//		task.setDueDate(new Date());
-//		taskRepository.save(task);
-//		
-//		List<Task> tasks = new ArrayList<Task>();
-//		tasks.add(task);
-//		tasks.add(task);
-//		tasks.add(task);
-//		
-//		final User u = new User();
-//		u.setFirstName("sumit");
-//		u.setFirstName("arora");
-//		u.setTasks(tasks);
-//		
-//		userRepository.save(u);
-		return new ModelAndView("index");
+	public String index() {
+		return "redirect:/task/list";
 	}
 	
 }
