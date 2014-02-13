@@ -1,107 +1,59 @@
 package com.sumit.controller;
 
-import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.List;
+
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sumit.exception.ShopNotFound;
-import com.sumit.model.Shop;
-import com.sumit.validation.ShopValidator;
+import com.sumit.mongomodel.User;
+import com.sumit.mongorepository.UserRepository;
 
 @Controller
-@RequestMapping(value="/shop")
+@RequestMapping(value="/user")
+@Slf4j
 public class UserController {
 	
-	//@Autowired
-	//private ShopService shopService;
+	protected static final String JSON_CONTENT = "application/json";
 	
-	@Autowired
-	private ShopValidator shopValidator;
-	
-	@InitBinder
-	private void initBinder(WebDataBinder binder) {
-		binder.setValidator(shopValidator);
+	@Autowired(required=true)
+	UserRepository userRepository;
+
+	@RequestMapping(value="/list", method=RequestMethod.GET, produces = JSON_CONTENT)
+	@ResponseBody
+	public List<User> listUsers() {
+		final List<User> users = userRepository.findAll();
+		log.debug("total count of users found: {}", users.size());
+		return users;
 	}
 
-	@RequestMapping(value="/create", method=RequestMethod.GET)
-	public ModelAndView newShopPage() {
-		ModelAndView mav = new ModelAndView("shop-new", "shop", new Shop());
-		return mav;
+	@RequestMapping(value="/create", method=RequestMethod.PUT, produces = JSON_CONTENT)
+	@ResponseBody
+	public User createUser(@RequestBody final User user) {
+		log.debug("creating task: {}",  user);
+		userRepository.save(user);
+		return user;
 	}
-	
-	@RequestMapping(value="/create", method=RequestMethod.POST)
-	public ModelAndView createNewShop(@ModelAttribute @Valid Shop shop,
-			BindingResult result,
-			final RedirectAttributes redirectAttributes) {
-		
-		if (result.hasErrors())
-			return new ModelAndView("shop-new");
-		
-		ModelAndView mav = new ModelAndView();
-		String message = "New shop "+shop.getName()+" was successfully created.";
-		
-		//shopService.create(shop);
-		mav.setViewName("redirect:/index.html");
-				
-		redirectAttributes.addFlashAttribute("message", message);	
-		return mav;		
-	}
-	
-	@RequestMapping(value="/list", method=RequestMethod.GET)
-	public ModelAndView shopListPage() {
-		ModelAndView mav = new ModelAndView("shop-list");
-		//List<Shop> shopList = shopService.findAll();
-		//mav.addObject("shopList", shopList);
-		return mav;
-	}
-	
-	@RequestMapping(value="/edit/{id}", method=RequestMethod.GET)
-	public ModelAndView editShopPage(@PathVariable Integer id) {
-		ModelAndView mav = new ModelAndView("shop-edit");
-		//Shop shop = shopService.findById(id);
-		//mav.addObject("shop", shop);
-		return mav;
-	}
-	
-	@RequestMapping(value="/edit/{id}", method=RequestMethod.POST)
-	public ModelAndView editShop(@ModelAttribute @Valid Shop shop,
-			BindingResult result,
-			@PathVariable Integer id,
-			final RedirectAttributes redirectAttributes) throws ShopNotFound {
-		
-		if (result.hasErrors())
-			return new ModelAndView("shop-edit");
-		
-		ModelAndView mav = new ModelAndView("redirect:/index.html");
-		String message = "Shop was successfully updated.";
 
-		//shopService.update(shop);
+	@RequestMapping(value="/delete/{id}", method=RequestMethod.GET, produces = JSON_CONTENT)
+	@ResponseBody
+	public HashMap<String, Boolean> deleteUser(@PathVariable final String id) {
+		log.debug("deleting task with id: {}", id);
+		final HashMap<String, Boolean> result = new HashMap<>(); 
 		
-		redirectAttributes.addFlashAttribute("message", message);	
-		return mav;
+		try {
+			userRepository.delete(id);
+			result.put("result", Boolean.TRUE);
+		} catch (Exception e) {
+			result.put("result", Boolean.FALSE);
+		}
+		return result;
 	}
-	
-	@RequestMapping(value="/delete/{id}", method=RequestMethod.GET)
-	public ModelAndView deleteShop(@PathVariable Integer id,
-			final RedirectAttributes redirectAttributes) throws ShopNotFound {
-		
-		ModelAndView mav = new ModelAndView("redirect:/index.html");		
-		
-		//Shop shop = shopService.delete(id);
-		//String message = "The shop "+shop.getName()+" was successfully deleted.";
-		
-		//redirectAttributes.addFlashAttribute("message", message);
-		return mav;
-	}
-	
 }
