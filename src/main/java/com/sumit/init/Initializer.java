@@ -12,6 +12,7 @@ import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextCleanupListener;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 
 @Slf4j
@@ -35,6 +36,7 @@ public class Initializer implements WebApplicationInitializer {
 		servletContext.addListener(new ContextCleanupListener());
 
 		ctx.setServletContext(servletContext);
+		servletContext.addFilter("CORSFilter", DelegatingFilterProxy.class).addMappingForUrlPatterns(null, true, "/*");
 
 		log.debug("application starting up");
 		System.setProperty("spring.profiles.active", "web");
