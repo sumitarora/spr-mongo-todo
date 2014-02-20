@@ -19,10 +19,10 @@ public class User {
 
 	@Indexed
 	private String email;
-	
-    private String firstName;
-	
-    private String lastName;
+	private String firstName;
+	private String lastName;
+    private String token;
+    private String password;
 	
 	private List<Task> tasks;
     

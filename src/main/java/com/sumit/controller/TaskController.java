@@ -6,12 +6,15 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.sumit.mongomodel.Task;
 import com.sumit.mongorepository.TaskRepository;
@@ -25,7 +28,14 @@ public class TaskController {
 	
 	@Autowired
 	private TaskRepository taskRepository;
-
+	
+	@RequestMapping(value = "/hello", method=RequestMethod.GET)
+	public ModelAndView sayHello() {
+		final ModelAndView mav = new ModelAndView("hello");
+		log.debug("inside hello");
+		return mav;
+	};
+	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET, produces = JSON_CONTENT)
 	@ResponseBody
 	public Task getTask(final @PathVariable String id) {
@@ -61,6 +71,7 @@ public class TaskController {
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.GET, produces = JSON_CONTENT)
 	@ResponseBody
 	public HashMap<String, Boolean> deleteTask(@PathVariable final String id) {
+		
 		log.debug("deleting task with id: {}", id);
 		final HashMap<String, Boolean> result = new HashMap<>(); 
 		
